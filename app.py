@@ -1,8 +1,35 @@
 import tkinter as tk
+import json
+import requests
 
 def configure():
-    # Add code to handle the configuration here
-    pass
+    data = {}
+    for i in range(len(labels)):
+        label_text = labels[i]
+        entry_text = entries[i].get()
+        data[label_text.lower()] = entry_text
+    
+    json_data = {
+        "messageType": "LSL_OUTLET_CONFIG",
+        "messageSource": "Server Interface",
+        "data": data
+    }
+    
+    # Convert the JSON data to a string
+    json_str = json.dumps(json_data, indent=4)
+    print(json_str)
+    
+    # Make a POST request to the desired IP address
+    url = entries[0].get()
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, data=json_str, headers=headers)
+    
+    # Handle the response
+    if response.status_code == 200:
+        print("POST request successful")
+    else:
+        print("POST request failed")
+
 
 def start():
     # Add code to handle the start button click here
