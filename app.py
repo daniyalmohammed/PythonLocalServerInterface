@@ -5,7 +5,7 @@ import requests
 def configure():
     data = {}
     for i in range(len(labels)):
-        label_text = labels[i]
+        label_text = requestLabels[i]
         entry_text = entries[i].get()
         data[label_text.lower()] = entry_text
     
@@ -20,15 +20,12 @@ def configure():
     print(json_str)
     
     # Make a POST request to the desired IP address
-    url = entries[0].get()
+    url = device_entry.get() + "/update"
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, data=json_str, headers=headers)
     
     # Handle the response
-    if response.status_code == 200:
-        print("POST request successful")
-    else:
-        print("POST request failed")
+    print(response.text)
 
 
 def start():
@@ -36,8 +33,26 @@ def start():
     pass
 
 def stop():
-    # Add code to handle the stop button click here
-    pass
+    data = {}
+    data["sessionToken"] = 1
+    
+    json_data = {
+        "messageType": "STOP_TELEMETRY_MESSAGE",
+        "messageSource": "Server Interface",
+        "data": data
+    }
+    
+    # Convert the JSON data to a string
+    json_str = json.dumps(json_data, indent=4)
+    print(json_str)
+    
+    # Make a POST request to the desired IP address
+    url = device_entry.get() + "/update"
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, data=json_str, headers=headers)
+    
+    # Handle the response
+    print(response.text)
 
 # Create the main window
 window = tk.Tk()
@@ -53,6 +68,7 @@ device_entry.pack()
 
 # Create the input fields and labels
 labels = ['Name:', 'Type:', 'Channel Count:', 'Nominal SRate:', 'Channel Format:', 'Source ID:']
+requestLabels = ['name', 'type', 'channel_count', 'nominal_srate', 'channel_format', 'source_id']
 entries = []
 
 for label_text in labels:
