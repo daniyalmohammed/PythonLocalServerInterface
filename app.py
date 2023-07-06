@@ -1,6 +1,34 @@
 import tkinter as tk
 import json
 import requests
+from enum import Enum
+
+class ChannelId(Enum):
+    ACQ_CHANNEL_1 = 1
+    ACQ_CHANNEL_2 = 1 << 1
+    ACQ_CHANNEL_3 = 1 << 2
+    ACQ_CHANNEL_4 = 1 << 3
+    ACQ_CHANNEL_5 = 1 << 4
+    ACQ_CHANNEL_6 = 1 << 5
+    ACQ_CHANNEL_7 = 1 << 6
+    ACQ_CHANNEL_8 = 1 << 7
+
+channels = [
+    ChannelId.ACQ_CHANNEL_1,
+    ChannelId.ACQ_CHANNEL_2,
+    ChannelId.ACQ_CHANNEL_3,
+    ChannelId.ACQ_CHANNEL_4,
+    ChannelId.ACQ_CHANNEL_5,
+    ChannelId.ACQ_CHANNEL_6
+]
+
+class ChannelIdEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ChannelId):
+            print(obj.name)
+            print(obj.value)
+            return obj.name
+        return super().default(obj)
 
 def configure():
     data = {}
@@ -29,8 +57,30 @@ def configure():
 
 
 def start():
-    # Add code to handle the start button click here
-    pass
+    data = {}
+    data["samplingRateHz"] = entries[3].get()
+    data["sessionToken"] = 1
+    data["samplesPerEpoch"] = 64
+    data["enabledChannels"] = [channel.name for channel in channels]
+    data["measureImpedance"] = False
+    
+    json_data = {
+        "messageType": "START_TELEMETRY_MESSAGE",
+        "messageSource": "Server Interface",
+        "data": data
+    }
+    
+    # Convert the JSON data to a string
+    json_str = json.dumps(json_data, indent=4, cls=ChannelIdEncoder)
+    print(json_str)
+    
+    # Make a POST request to the desired IP address
+    url = device_entry.get() + "/update"
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, data=json_str, headers=headers)
+    
+    # Handle the response
+    print(response.text)
 
 def stop():
     data = {}
