@@ -163,7 +163,7 @@ device_entry.pack()
 # Create the input fields and labels
 labels = ['Name:', 'Type:', 'Nominal SRate:', 'Source ID:']
 requestLabels = ['name', 'type', 'nominal_srate', 'source_id']
-defaultValues = ['boneshaker', 'EEG', '250', 'CXN_UID']
+defaultValues = ['boneshaker', 'EEG', 250, 'CXN_UID']
 entries = []
 
 for i, label_text in enumerate(labels):
