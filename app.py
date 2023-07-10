@@ -192,7 +192,7 @@ channel_count_label.pack()
 
 channel_count_var = tk.StringVar(window)
 channel_count_var.set("6")  # Default value is set to 6
-channel_count_dropdown = tk.OptionMenu(window, channel_count_var, *range(1, 17))
+channel_count_dropdown = tk.OptionMenu(window, channel_count_var, *range(1, 9))
 channel_count_dropdown.pack()
 
 # Create the configure button
