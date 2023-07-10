@@ -80,6 +80,9 @@ def configure():
     
     # Handle the response
     print(response.text)
+    if response.text != "Successfully transmitted by Server App":
+        tk.messagebox.showwarning("ERROR", response.text)
+        return
 
 
 def start():
@@ -113,6 +116,9 @@ def start():
     
     # Handle the response
     print(response.text)
+    if response.text != "Successfully transmitted by Server App":
+        tk.messagebox.showwarning("ERROR", response.text)
+        return
 
 def stop():
     if not device_entry.get():  # Check if the field is empty
@@ -138,6 +144,9 @@ def stop():
     
     # Handle the response
     print(response.text)
+    if response.text != "Successfully transmitted by Server App":
+        tk.messagebox.showwarning("ERROR", response.text)
+        return
 
 # Create the main window
 window = tk.Tk()
