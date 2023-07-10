@@ -44,6 +44,7 @@ def configure():
             tk.messagebox.showwarning("Field Empty",errorMessage[:len(errorMessage) - 1])
             return
         data[label_text.lower()] = entry_text
+    data["channel_format"] = int(channel_format_var.get())
     
     json_data = {
         "messageType": "LSL_OUTLET_CONFIG",
@@ -158,10 +159,6 @@ channel_format_var = tk.StringVar(window)
 channel_format_var.set("1")  # Default value is set to 1
 channel_format_dropdown = tk.OptionMenu(window, channel_format_var, *range(1, 8))
 channel_format_dropdown.pack()
-
-def get_channel_format():
-    channel_format = int(channel_format_var.get())
-    print(channel_format)
 
 # Create the configure button
 configure_button = tk.Button(window, text="Configure", bg="yellow", command=configure)
