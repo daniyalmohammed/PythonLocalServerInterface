@@ -93,7 +93,7 @@ def start():
         tk.messagebox.showwarning("Field Empty", "Please fill in the Local Server URL")
         return
     data = {}
-    data["samplingRateHz"] = entries[3].get()
+    data["samplingRateHz"] = entries[2].get()
     data["sessionToken"] = 1
     data["samplesPerEpoch"] = 64
     data["enabledChannels"] = [channel.name for channel in channels[:int(channel_count_var.get())]]
