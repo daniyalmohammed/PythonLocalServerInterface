@@ -40,7 +40,8 @@ def configure():
         label_text = requestLabels[i]
         entry_text = entries[i].get()
         if not entry_text:  # Check if the field is empty
-            tk.messagebox.showwarning("Field Empty", "Please fill in the " + labels[i])
+            errorMessage = "Please fill in the " + labels[i]
+            tk.messagebox.showwarning("Field Empty",errorMessage[:len(errorMessage) - 1])
             return
         data[label_text.lower()] = entry_text
     
