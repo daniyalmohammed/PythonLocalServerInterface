@@ -22,6 +22,13 @@ class ChannelId(Enum):
     ACQ_CHANNEL_15 = 1 << 14
     ACQ_CHANNEL_16 = 1 << 15
 
+# Encodes ChannelId objects as their name
+class ChannelIdEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ChannelId):
+            return obj.name
+        return super().default(obj)
+
 channels = [
     ChannelId.ACQ_CHANNEL_1,
     ChannelId.ACQ_CHANNEL_2,
@@ -40,12 +47,6 @@ channels = [
     ChannelId.ACQ_CHANNEL_15,
     ChannelId.ACQ_CHANNEL_16,
 ]
-
-class ChannelIdEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, ChannelId):
-            return obj.name
-        return super().default(obj)
 
 def configure():
     if not device_entry.get():  # Check if the field is empty
